@@ -1,17 +1,19 @@
 package edu.unlam.paradigmas.basicas.ej01;
 
-
-
 import java.lang.Integer;
-
 
 public class Rango implements Comparable<Rango>
 {
+	//10. Un rango es inmutable: no puede modificarse una vez creado.
     private final int inicio;
     private final int fin;
+    
     private String tipoInicio;
     private String tipoFin;
+   
     
+//2. implementar cuatro métodos estáticos que permitan 
+//   crear las combinaciones [],[},{],{}
     public static Rango crearIntervaloAbierto(int ini, int fin){
         Rango rango = new Rango(ini,fin);
         rango.tipoInicio=rango.tipoFin="abierto";
@@ -41,22 +43,23 @@ public class Rango implements Comparable<Rango>
         
         return rango;
     }
-
+// 3. Teniendo los métodos estáticos, será buena idea hacer el constructor privado, 
+// ya que sólamente se accederá a él por los métodos estáticos.
     private Rango(int ini, int fin){
         this.inicio = ini;
         this.fin = fin;
     }
-    
+   
+// 4. Se debe poder consultar si un número está dentro de un rango.
     public boolean numeroEnRango(int num){
+    	//NOTA-EXT:creo que se puede mejorar haciendo 4 funciones que hagan estas 
+    	//comparaciones independientes y privadas de la clase
         boolean dentroLimiteInferior = this.tipoInicio.equals("abierto") ? num > this.inicio  : num >= this.inicio;
         boolean dentroLimiteSuperior = this.tipoFin.equals("abierto") ? num < this.fin  : num <= this.fin;
         
         return dentroLimiteInferior && dentroLimiteSuperior;
     }
-    
-    
-    
-    
+// 5. Se debe poder consultar si un rango está dentro de un rango.
     public boolean rangoEnRango(Rango otro) {
         boolean dentroLimiteInferior=this.inicio <= otro.inicio;
         
@@ -71,7 +74,7 @@ public class Rango implements Comparable<Rango>
         
         return dentroLimiteInferior && dentroLimiteSuperior;
     }
-    
+// 6. Se debe poder consultar si hay intersección entre dos rangos.
     public boolean hayInterseccion(Rango otro) {
     	 /*
         Sabiendo que para intersectar dos rangos A y B.
@@ -150,7 +153,7 @@ public class Rango implements Comparable<Rango>
         return resultado;
     }
     
-    
+    // 7. Se debe poder comparar por igualdad los rangos.
     @Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -169,6 +172,7 @@ public class Rango implements Comparable<Rango>
 		return true;
 	}
 	
+    // Se debe poder imprimir un rango en formato cadena de caracteres.
 	@Override
 	public String toString() {
 		
@@ -183,11 +187,10 @@ public class Rango implements Comparable<Rango>
 	
 	@Override
 	 public int compareTo (Rango otro){
+		//una simple optimizacion para comparar igualdad
+		int resultado = Integer.compare(this.inicio, otro.inicio)+
+						Integer.compare(this.fin, otro.fin);
 		 
-		 int resultado = Integer.compare(this.inicio,otro.inicio);
-		 
-		 if(resultado==0)
-		    resultado = Integer.compare(this.fin,otro.fin);
 		    
 		 if(resultado==0){
 		     if(!this.tipoInicio.equals(otro.tipoInicio) && this.tipoInicio.equals("cerrado"))
@@ -196,30 +199,35 @@ public class Rango implements Comparable<Rango>
 		        resultado=1;
 		 }
 		 
-		 
 		 if(resultado==0){
 		     if(!this.tipoFin.equals(otro.tipoInicio) && this.tipoFin.equals("cerrado"))
 		        resultado=-1;
 		    else if(!this.tipoFin.equals(otro.tipoFin) && this.tipoFin.equals("abierto"))
 		        resultado=1;
 		 }
-		    
-		                
 		 
 		 return resultado;
 	 }
 	 
+	// 11. Proporcionar un método estático que devuelva un rango 
+	// que abarque a todos los otros rangos.
 	 public static Rango RangoInfinito(){
 	     /*
 	        Este metodo retorna un rango que contiene a todos
 	        los otros posibles rangos que se puedan crear con 
-	        esta clase
+	        esta clase.
+	        Algunas cuestiones: 
+	        primero, porque intervalo abierto y no cerrado ?
+	        segundo, francia xd
+	        segundo, Porque se limitaria a un min_value de una clase integer?
+	        
 	     */
 	     
-	     return crearIntervaloAbierto(Integer.MIN_VALUE,Integer.MAX_VALUE);
+	     return crearIntervaloCerrado(Integer.MIN_VALUE,Integer.MAX_VALUE);
 	     
 	 }
-	 
+	 // 12. Se deben poder sumar rangos, utilizando 
+	 // el inicio del primero y el fin del segundo.
 	 public static Rango sumarRango(Rango ran1, Rango ran2){
 	     Rango nue = new Rango(ran1.inicio,ran2.fin);
 	     nue.tipoInicio=ran1.tipoInicio;
@@ -228,6 +236,7 @@ public class Rango implements Comparable<Rango>
 	     return nue;
 	 }
 	 
+	 // 14. Se debe poder desplazar un rango con un número escalar.
 	 public Rango rangoPorEscalar(int k){
 	    Rango nue = new Rango(this.inicio*k,this.fin*k);
 	    nue.tipoInicio=this.tipoInicio;
