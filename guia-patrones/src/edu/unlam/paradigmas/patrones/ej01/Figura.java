@@ -2,7 +2,7 @@ package edu.unlam.paradigmas.patrones.ej01;
 
 public abstract class Figura {
 	private double x, y;
-	public final int CANTPOMOM2 = 100;
+	public static final int CANTPOMOM2 = 100;
 	//private String color
 	
 	public Figura(double x, double y)
@@ -11,7 +11,8 @@ public abstract class Figura {
 		this.y = y;
 	}
 	abstract double getArea(); //se lo delego a las hijas
-	int calcularTotalPomos()
+	
+	public int calcularTotalPomos()
 	{
 		double areaFigura = getArea();
 		//al parsearlo como int trunca para abajo igual, como un math.floor

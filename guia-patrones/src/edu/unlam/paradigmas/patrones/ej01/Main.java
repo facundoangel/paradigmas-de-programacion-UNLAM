@@ -12,6 +12,9 @@ public class Main {
 						cir,
 						cuad2
 		);
+		FiguraCompuesta figuras2 = new FiguraCompuesta("AZUL", figuras,
+				cuad1, cuad2);
+				
 		
 		// notese que la suma del total de pomos requeridos para pintar
 		// individualmente las figuras es mayor que las requeridas
@@ -23,13 +26,18 @@ public class Main {
 		// si se quiere pintar un conjunto de figuras, hay que
 		// tener en cuenta las areas como un conjunto o una
 		// suma tambien, para que no se desperdicie los pomos
+		
 		System.out.println("total pomos calculados individualmente");
+		//(21*21)/10
 		System.out.println(cuad1.calcularTotalPomos());
 		System.out.println(cir.calcularTotalPomos());
 		System.out.println(cuad2.calcularTotalPomos());
 		
-		System.out.println("total pomos calculados como conjunto");
+		System.out.println("total pomos calculados como conjunto de figuras");
 		System.out.println(figuras.calcularTotalPomos());
+		
+		System.out.println("total pomos calculados como de figuras2");
+		System.out.println(figuras2.calcularTotalPomos());
 	}
 
 }
